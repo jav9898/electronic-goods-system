@@ -3,7 +3,7 @@
 Full-stack inventory management system for electronic goods.
 
 ## Team Assignment
-- **Add/Update Items**: [Your Name]
+- **Add/Update Items**: [Javier]
 - **List/Delete Items**: [Teammate 1]  
 - **Admin Auth**: [Teammate 2]
 
@@ -16,7 +16,7 @@ Full-stack inventory management system for electronic goods.
 
 ## Development Workflow
 
-1. Create feature branch: Javier's `git checkout -b feature/your-feature`
+1. Create feature branch:`git checkout -b feature/your-feature`
 2. Implement feature
 3. Create Pull Request
 4. Get team review and approval
