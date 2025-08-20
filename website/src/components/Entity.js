@@ -67,6 +67,15 @@ const Entity = ({ entity, onDelete, onSelect, onEdit, isSelected }) => {
         <button 
           className="edit-btn"
           onClick={() => onEdit && onEdit(entity)}
+          style={{
+            backgroundColor: '#007bff',
+            color: 'white',
+            border: 'none',
+            padding: '8px 16px',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            marginRight: '8px'
+          }}
         >
           Edit
         </button>
@@ -74,6 +83,14 @@ const Entity = ({ entity, onDelete, onSelect, onEdit, isSelected }) => {
           data-testid={EntityDeleteTestId}
           className="delete-btn"
           onClick={() => onDelete(entityId)}
+          style={{
+            backgroundColor: '#dc3545',
+            color: 'white',
+            border: 'none',
+            padding: '8px 16px',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
         >
           Delete
         </button>

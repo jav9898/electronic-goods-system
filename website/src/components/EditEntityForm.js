@@ -146,11 +146,35 @@ const EditEntityForm = ({ entity, onClose, onUpdate }) => {
               />
             </div>
 
-            <div className="form-actions">
-              <button type="button" onClick={onClose} className="cancel-btn">
+            <div className="form-actions" style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+              <button 
+                type="button" 
+                onClick={onClose} 
+                className="cancel-btn"
+                style={{
+                  backgroundColor: '#6c757d',
+                  color: 'white',
+                  border: 'none',
+                  padding: '10px 20px',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
                 Cancel
               </button>
-              <button type="submit" disabled={isSubmitting} className="submit-btn">
+              <button 
+                type="submit" 
+                disabled={isSubmitting} 
+                className="submit-btn"
+                style={{
+                  backgroundColor: isSubmitting ? '#6c757d' : '#28a745',
+                  color: 'white',
+                  border: 'none',
+                  padding: '10px 20px',
+                  borderRadius: '4px',
+                  cursor: isSubmitting ? 'not-allowed' : 'pointer'
+                }}
+              >
                 {isSubmitting ? 'Updating...' : 'Update Product'}
               </button>
             </div>
