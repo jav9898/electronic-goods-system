@@ -46,8 +46,11 @@ const EditEntityForm = ({ entity, onClose, onUpdate }) => {
     try {
       const updateData = {
         productID: entity.productID,
-        ...formData,
-        categoryID: parseInt(formData.categoryID)
+        name: formData.name,
+        brand: formData.brand,
+        categoryID: parseInt(formData.categoryID),
+        description: formData.description,
+        imageURL: formData.imageURL
       };
 
       const result = await dispatch(updateProduct(updateData)).unwrap();
@@ -105,21 +108,17 @@ const EditEntityForm = ({ entity, onClose, onUpdate }) => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="edit-categoryID">Category *</label>
-              <select
+              <label htmlFor="edit-categoryID">Category ID *</label>
+              <input
+                type="number"
                 id="edit-categoryID"
                 name="categoryID"
                 value={formData.categoryID}
                 onChange={handleInputChange}
                 required
-              >
-                <option value="">Select a category</option>
-                {categories.map(category => (
-                  <option key={category.CategoryID} value={category.CategoryID}>
-                    {category.CategoryName}
-                  </option>
-                ))}
-              </select>
+                placeholder="Enter category ID (e.g. 1, 2, 3)"
+                min="1"
+              />
             </div>
 
             <div className="form-group">
