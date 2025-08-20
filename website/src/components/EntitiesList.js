@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Entity from './Entity';
+import EditEntityForm from './EditEntityForm';
 import { 
   deleteProduct, 
   toggleSelectEntity, 
@@ -16,6 +17,7 @@ const EntitiesList = () => {
   const dispatch = useDispatch();
   const entities = useSelector(selectFilteredEntities);
   const selectedEntities = useSelector(selectSelectedEntities);
+  const [editingEntity, setEditingEntity] = useState(null);
 
   const handleDeleteEntity = (id) => {
     dispatch(deleteProduct(id));
@@ -23,6 +25,19 @@ const EntitiesList = () => {
 
   const handleSelectEntity = (id) => {
     dispatch(toggleSelectEntity(id));
+  };
+
+  const handleEditEntity = (entity) => {
+    setEditingEntity(entity);
+  };
+
+  const handleCloseEdit = () => {
+    setEditingEntity(null);
+  };
+
+  const handleUpdateEntity = (updatedEntity) => {
+    // The update is handled by Redux, just close the modal
+    setEditingEntity(null);
   };
 
   const handleDeleteSelected = async () => {
@@ -60,11 +75,20 @@ const EntitiesList = () => {
                 entity={entity} 
                 onDelete={handleDeleteEntity} 
                 onSelect={handleSelectEntity}
+                onEdit={handleEditEntity}
                 isSelected={selectedEntities.includes(entity.productID || entity.id)}
               />
             </li>
           ))}
         </ul>
+      )}
+      
+      {editingEntity && (
+        <EditEntityForm 
+          entity={editingEntity}
+          onClose={handleCloseEdit}
+          onUpdate={handleUpdateEntity}
+        />
       )}
     </div>
   );

@@ -5,7 +5,7 @@ export const EntitySelectTestId = "entity-select";
 export const EntityDeleteTestId = "entity-delete";
 export const EntityCategoryTestId = "entity-category";
 
-const Entity = ({ entity, onDelete, onSelect, isSelected }) => {
+const Entity = ({ entity, onDelete, onSelect, onEdit, isSelected }) => {
   // State for handling image loading errors
   const [imageError, setImageError] = useState(false);
 
@@ -63,13 +63,21 @@ const Entity = ({ entity, onDelete, onSelect, isSelected }) => {
           </div>
         )}
       </div>
-      <button 
-        data-testid={EntityDeleteTestId}
-        className="delete-btn"
-        onClick={() => onDelete(entityId)}
-      >
-        Delete
-      </button>
+      <div className="entity-actions">
+        <button 
+          className="edit-btn"
+          onClick={() => onEdit && onEdit(entity)}
+        >
+          Edit
+        </button>
+        <button 
+          data-testid={EntityDeleteTestId}
+          className="delete-btn"
+          onClick={() => onDelete(entityId)}
+        >
+          Delete
+        </button>
+      </div>
     </div>
   );
 };

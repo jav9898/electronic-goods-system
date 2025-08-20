@@ -28,10 +28,10 @@ export const createProduct = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
   'entities/updateProduct',
-  async ({ id, productData }, { rejectWithValue }) => {
+  async (productData, { rejectWithValue }) => {
     try {
-      await productsAPI.updateProduct(id, productData);
-      return { id, ...productData };
+      const response = await productsAPI.updateProduct(productData.productID, productData);
+      return { id: productData.productID, ...productData };
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to update product');
     }
