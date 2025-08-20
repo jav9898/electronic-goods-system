@@ -10,11 +10,11 @@ router.get("/", productController.getAllProducts);
 router.get("/search", productController.searchProducts);
 
 // Route to create a new fashion product
-router.post("/create", productController.createNewProduct);
+router.post("/", productController.createNewProduct);
 
-router.delete("/delete/:id", productController.deleteProduct);
+router.delete("/:id", productController.deleteProduct);
 
-router.put("/update/:id", productController.updateProduct);
+router.put("/:id", productController.updateProduct);
 
 // // Route to search by name (name is required path parameter)
 // router.get("/search/name/:name", productController.searchProductsByName);

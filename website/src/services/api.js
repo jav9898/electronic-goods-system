@@ -27,14 +27,20 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      // Token expired or invalid
-      localStorage.removeItem('authToken');
-      window.location.href = '/login';
-    }
+    // Disabled authentication redirects - allow all endpoints without login
+    // if (error.response?.status === 401 && !isPublicEndpoint(error.config?.url)) {
+    //   localStorage.removeItem('authToken');
+    //   window.location.href = '/login';
+    // }
     return Promise.reject(error);
   }
 );
+
+// Helper function to check if endpoint is public
+const isPublicEndpoint = (url) => {
+  const publicEndpoints = ['/products', '/products/search', '/user/login'];
+  return publicEndpoints.some(endpoint => url?.includes(endpoint));
+};
 
 // Auth API calls
 export const authAPI = {

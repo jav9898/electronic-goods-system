@@ -84,6 +84,11 @@ var productController = {
       });
     }
 
+    // Ensure imageURL has a default value if not provided
+    if (!data.imageURL) {
+      data.imageURL = 'https://via.placeholder.com/300x300?text=No+Image';
+    }
+
     const callback = (error, results, fields) => {
       if (error) {
         console.error("Error creating new product:", error);

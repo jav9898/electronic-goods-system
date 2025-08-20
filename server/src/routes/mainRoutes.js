@@ -40,7 +40,7 @@ const authenticateExcept = (excludedPaths) => {
 // Apply authentication middleware to all routes except login and public endpoints
 router.use(authenticateExcept([
   '/user/login',              // Allow login without authentication
-  '/products$',            // Removed - now requires authentication
+  '/products',                // Allow getting all products without authentication
   '/products/search'          // Allow searching products without authentication
   // All other endpoints will require authentication
 ]));
