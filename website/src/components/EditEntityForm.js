@@ -75,7 +75,25 @@ const EditEntityForm = ({ entity, onClose, onUpdate }) => {
         <div className="form-container">
           <div className="form-header">
             <h3>Edit Product</h3>
-            <button className="close-btn" onClick={onClose}>×</button>
+            <button 
+              className="close-btn" 
+              onClick={onClose}
+              style={{
+                backgroundColor: '#dc3545',
+                color: 'white',
+                border: 'none',
+                borderRadius: '50%',
+                width: '30px',
+                height: '30px',
+                fontSize: '18px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              ×
+            </button>
           </div>
           
           {error && <div className="error-message">{error}</div>}
