@@ -3,7 +3,11 @@ const pool = require("../services/db");
 var productModel = {
   // Get all products
   getAllProducts: (callback) => {
-    const query = "SELECT * FROM fashion.`Fashion_Product_Table`";
+    const query = `
+      SELECT p.*, c.CategoryName as category 
+      FROM fashion.Fashion_Product_Table p 
+      LEFT JOIN fashion.Category_Table c ON p.CategoryID = c.CategoryID
+    `;
     pool.query(query, callback);
   },
   

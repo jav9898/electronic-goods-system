@@ -30,7 +30,7 @@ const Entity = ({ entity, onDelete, onSelect, isSelected }) => {
           data-testid={EntityCategoryTestId}
           className="entity-category"
         >
-          {entity.category || `Category ${entity.categoryID}`}
+          {entity.category || `Category ${entity.CategoryID}`}
         </span>
       </div>
       <div className="entity-details">
