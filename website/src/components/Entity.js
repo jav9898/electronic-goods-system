@@ -14,7 +14,7 @@ const Entity = ({ entity, onDelete, onSelect, onEdit, isSelected }) => {
   };
 
   const entityId = entity.productID || entity.id;
-  const imageUrl = entity.imageURL || entity.imageUrl;
+  const imageUrl = entity.ImageURL || entity.imageURL || entity.imageUrl;
   
   return (
     <div className="entity-item">
