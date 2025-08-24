@@ -21,4 +21,8 @@ app.get('/', (req, res) => {
 // TODO: Routes will be added here as features are developed
 // app.use('/api', itemRoutes);
 
+const mainRoutes = require('./routes/mainRoutes');
+app.use("/api", mainRoutes); 
+//app.use("/", mainRoutes);
+
 module.exports = app;
