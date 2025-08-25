@@ -5,7 +5,7 @@ Full-stack inventory management system for electronic goods.
 ## Team Assignment
 - **Add/Update Items**: [Javier]
 - **List/Delete Items**: [Teammate 1]  
-- **Admin Auth**: [Teammate 2]
+- **Admin Auth**: [Javier]
 
 ## Setup
 

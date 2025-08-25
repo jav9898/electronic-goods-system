@@ -44,12 +44,15 @@ export const AuthProvider = ({ children }) => {
         setUser(data.user);
         localStorage.setItem('authToken', data.token);
         localStorage.setItem('authUser', JSON.stringify(data.user));
-        return { success: true, data };
+        return data;
       } else {
-        return { success: false, error: data.message || 'Login failed' };
+        throw new Error(data.message || 'Login failed');
       }
     } catch (error) {
-      return { success: false, error: 'Network error. Please try again.' };
+      if (error.message) {
+        throw error;
+      }
+      throw new Error('Network error. Please try again.');
     }
   };
 
@@ -66,12 +69,15 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
 
       if (response.ok) {
-        return { success: true, data };
+        return data;
       } else {
-        return { success: false, error: data.error || 'Registration failed' };
+        throw new Error(data.error || 'Registration failed');
       }
     } catch (error) {
-      return { success: false, error: 'Network error. Please try again.' };
+      if (error.message) {
+        throw error;
+      }
+      throw new Error('Network error. Please try again.');
     }
   };
 

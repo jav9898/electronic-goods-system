@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import AuthPage from './components/AuthPage';
+import GlassmorphismAuthPage from './components/GlassmorphismAuthPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Main Dashboard Component (protected)
@@ -62,7 +62,7 @@ const AppContent = () => {
           <Dashboard />
         </ProtectedRoute>
       ) : (
-        <AuthPage />
+        <GlassmorphismAuthPage />
       )}
     </div>
   );
