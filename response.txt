@@ -1,0 +1,1 @@
+{"message":"Electronic Goods System API","status":"Server running successfully"}

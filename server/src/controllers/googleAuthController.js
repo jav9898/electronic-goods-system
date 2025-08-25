@@ -1,9 +1,8 @@
 const jwt = require('jsonwebtoken');
 const userModel = require('../models/userModel');
 
-const googleAuthController = {
-  // Handle Google OAuth authentication
-  googleAuth: async (req, res) => {
+// Handle Google OAuth authentication
+const googleAuth = async (req, res) => {
     const { email, firstName, lastName, googleId, picture } = req.body;
 
     // Validation
@@ -14,7 +13,17 @@ const googleAuthController = {
     }
 
     try {
+      console.log("Google auth request received:", { email, firstName, lastName, googleId });
+      
+      // First, ensure Google columns exist in the database
+      userModel.addGoogleColumns((columnError) => {
+        if (columnError && !columnError.message.includes('Duplicate column name')) {
+          console.log('Note: Google columns may already exist or there was an issue adding them');
+        }
+      });
+
       // Check if user exists with this email
+      console.log("Checking if user exists with email:", email);
       userModel.getUserByEmail(email, async (error, existingUser) => {
         if (error) {
           console.error("Error checking existing user:", error);
@@ -22,10 +31,12 @@ const googleAuthController = {
             error: "Database error during authentication"
           });
         }
+        
+        console.log("getUserByEmail result - error:", error, "existingUser:", existingUser);
 
         let user;
         
-        if (existingUser) {
+        if (existingUser && existingUser.length > 0) {
           // User exists, update Google ID if not set
           if (!existingUser.googleId) {
             userModel.updateGoogleId(existingUser.userID, googleId, (updateError) => {
@@ -49,6 +60,7 @@ const googleAuthController = {
           };
 
           // Create user without password validation
+          console.log("Creating new Google user with data:", userData);
           userModel.createGoogleUser(userData, (createError, results) => {
             if (createError) {
               console.error("Error creating Google user:", createError);
@@ -56,6 +68,8 @@ const googleAuthController = {
                 error: "Failed to create user account"
               });
             }
+            
+            console.log("Google user created successfully:", results);
 
             user = {
               userID: results.insertId,
@@ -128,7 +142,6 @@ const googleAuthController = {
         error: "Internal server error during Google authentication"
       });
     }
-  }
 };
 
-module.exports = googleAuthController;
+module.exports = { googleAuth };

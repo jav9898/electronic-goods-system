@@ -23,6 +23,34 @@ var userModel = {
     pool.query(query, callback);
   },
 
+  // Add missing columns to existing Admin_Users table
+  addGoogleColumns: (callback) => {
+    const queries = [
+      `ALTER TABLE fashion.Admin_Users ADD COLUMN googleId VARCHAR(255) NULL`,
+      `ALTER TABLE fashion.Admin_Users ADD COLUMN picture VARCHAR(500) NULL`
+    ];
+    
+    let completed = 0;
+    const errors = [];
+    
+    queries.forEach((query, index) => {
+      pool.query(query, (error, results) => {
+        if (error && !error.message.includes('Duplicate column name')) {
+          errors.push(error);
+        }
+        completed++;
+        
+        if (completed === queries.length) {
+          if (errors.length > 0 && !errors[0].message.includes('Duplicate column name')) {
+            callback(errors[0]);
+          } else {
+            callback(null, { message: 'Google columns added successfully' });
+          }
+        }
+      });
+    });
+  },
+
   // Register new admin user
   registerUser: async (userData, callback) => {
     try {
@@ -115,8 +143,8 @@ var userModel = {
   createGoogleUser: (userData, callback) => {
     const query = `
       INSERT INTO fashion.Admin_Users 
-      (username, email, firstName, lastName, role, googleId, picture) 
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      (username, email, password, firstName, lastName, role, googleId, picture) 
+      VALUES (?, ?, NULL, ?, ?, ?, ?, ?)
     `;
     
     pool.query(query, [

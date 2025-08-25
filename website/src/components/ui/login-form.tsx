@@ -252,6 +252,18 @@ export function LoginForm({ onSubmit, onSignUp, loading = false, error = null }:
 
   const handleGoogleSignIn = (response: any) => {
     try {
+      // Handle error responses
+      if (response.error) {
+        setErrors({ google: response.error });
+        return;
+      }
+
+      // Check if credential exists
+      if (!response.credential) {
+        setErrors({ google: 'No credential received from Google' });
+        return;
+      }
+
       // Decode the JWT token to get user info
       const payload = JSON.parse(atob(response.credential.split('.')[1]));
       
