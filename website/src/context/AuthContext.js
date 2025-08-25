@@ -27,14 +27,17 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = async (email, password) => {
+  const login = async (email, password, googleData = null) => {
     try {
-      const response = await fetch('http://localhost:8000/user/login', {
+      const endpoint = googleData ? 'http://localhost:8000/user/google-auth' : 'http://localhost:8000/user/login';
+      const body = googleData ? googleData : { email, password };
+
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(body),
       });
 
       const data = await response.json();

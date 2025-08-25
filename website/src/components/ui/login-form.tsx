@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { User, Lock, ArrowRight } from 'lucide-react';
+import useGoogleAuth from '../../hooks/useGoogleAuth';
 
 // Vertex shader source code
 const vertexSmokeySource = `
@@ -214,6 +215,7 @@ export function LoginForm({ onSubmit, onSignUp, loading = false, error = null }:
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const { isGoogleLoaded, signInWithGoogle } = useGoogleAuth();
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
@@ -246,6 +248,38 @@ export function LoginForm({ onSubmit, onSignUp, loading = false, error = null }:
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
     }
+  };
+
+  const handleGoogleSignIn = (response: any) => {
+    try {
+      // Decode the JWT token to get user info
+      const payload = JSON.parse(atob(response.credential.split('.')[1]));
+      
+      // Create user data from Google response
+      const googleUserData = {
+        email: payload.email,
+        firstName: payload.given_name,
+        lastName: payload.family_name,
+        googleId: payload.sub,
+        picture: payload.picture,
+        isGoogleAuth: true
+      };
+
+      // Call the onSubmit with Google user data
+      onSubmit(googleUserData);
+    } catch (error) {
+      console.error('Google Sign-In error:', error);
+      setErrors({ google: 'Google Sign-In failed. Please try again.' });
+    }
+  };
+
+  const handleGoogleButtonClick = () => {
+    if (!isGoogleLoaded) {
+      setErrors({ google: 'Google Sign-In is loading. Please wait.' });
+      return;
+    }
+    
+    signInWithGoogle(handleGoogleSignIn);
   };
 
   return (
@@ -338,13 +372,21 @@ export function LoginForm({ onSubmit, onSignUp, loading = false, error = null }:
         {/* Google Login Button */}
         <button
           type="button"
-          className="w-full flex items-center justify-center py-3 px-4 h-12 bg-white/90 hover:bg-white rounded-lg text-gray-700 font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-blue-500 transition-all duration-300"
+          onClick={handleGoogleButtonClick}
+          disabled={!isGoogleLoaded}
+          className="w-full flex items-center justify-center py-3 px-4 h-12 bg-white/90 hover:bg-white disabled:bg-gray-400 disabled:cursor-not-allowed rounded-lg text-gray-700 font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-blue-500 transition-all duration-300"
         >
           <svg className="w-5 h-5 mr-2" viewBox="0 0 48 48">
             <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039L38.802 8.841C34.553 4.806 29.613 2.5 24 2.5C11.983 2.5 2.5 11.983 2.5 24s9.483 21.5 21.5 21.5S45.5 36.017 45.5 24c0-1.538-.135-3.022-.389-4.417z"></path><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12.5 24 12.5c3.059 0 5.842 1.154 7.961 3.039l5.839-5.841C34.553 4.806 29.613 2.5 24 2.5C16.318 2.5 9.642 6.723 6.306 14.691z"></path><path fill="#4CAF50" d="M24 45.5c5.613 0 10.553-2.306 14.802-6.341l-5.839-5.841C30.842 35.846 27.059 38 24 38c-5.039 0-9.345-2.608-11.124-6.481l-6.571 4.819C9.642 41.277 16.318 45.5 24 45.5z"></path><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l5.839 5.841C44.196 35.123 45.5 29.837 45.5 24c0-1.538-.135-3.022-.389-4.417z"></path>
           </svg>
-          Sign in with Google
+          {isGoogleLoaded ? 'Sign in with Google' : 'Loading Google...'}
         </button>
+
+        {errors.google && (
+          <div className="p-2 bg-red-500/20 border border-red-500/30 rounded text-red-200 text-xs text-center">
+            {errors.google}
+          </div>
+        )}
 
       </form>
        <p className="text-center text-xs text-gray-400">

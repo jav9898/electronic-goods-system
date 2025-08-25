@@ -9,11 +9,17 @@ const GlassmorphismAuthPage = () => {
   const [error, setError] = useState<string | null>(null);
   const { login, register } = useAuth();
 
-  const handleLogin = async (formData: { email: string; password: string }) => {
+  const handleLogin = async (formData: { email: string; password: string } | any) => {
     setLoading(true);
     setError(null);
     try {
-      await login(formData.email, formData.password);
+      if (formData.isGoogleAuth) {
+        // Handle Google authentication
+        await login(null, null, formData);
+      } else {
+        // Handle regular email/password login
+        await login(formData.email, formData.password);
+      }
     } catch (err: any) {
       setError(err.message || 'Login failed. Please check your credentials.');
     } finally {

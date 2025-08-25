@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@google-cloud/local-auth": "^3.0.1",
+    "googleapis": "^157.0.0",
     "lucide-react": "^0.541.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

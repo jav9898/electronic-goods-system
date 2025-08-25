@@ -9,10 +9,12 @@ var userModel = {
         userID INT AUTO_INCREMENT PRIMARY KEY,
         username VARCHAR(50) UNIQUE NOT NULL,
         email VARCHAR(100) UNIQUE NOT NULL,
-        password VARCHAR(255) NOT NULL,
+        password VARCHAR(255) NULL,
         firstName VARCHAR(50) NOT NULL,
         lastName VARCHAR(50) NOT NULL,
         role ENUM('admin', 'super_admin') DEFAULT 'admin',
+        googleId VARCHAR(255) NULL,
+        picture VARCHAR(500) NULL,
         isActive BOOLEAN DEFAULT true,
         createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -97,6 +99,45 @@ var userModel = {
       ORDER BY createdAt DESC
     `;
     pool.query(query, callback);
+  },
+
+  // Get user by email for Google auth
+  getUserByEmail: (email, callback) => {
+    const query = `
+      SELECT userID, username, email, firstName, lastName, role, googleId, picture
+      FROM fashion.Admin_Users 
+      WHERE email = ? AND isActive = true
+    `;
+    pool.query(query, [email], callback);
+  },
+
+  // Create Google user without password
+  createGoogleUser: (userData, callback) => {
+    const query = `
+      INSERT INTO fashion.Admin_Users 
+      (username, email, firstName, lastName, role, googleId, picture) 
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+    
+    pool.query(query, [
+      userData.username,
+      userData.email,
+      userData.firstName,
+      userData.lastName,
+      userData.role || 'admin',
+      userData.googleId,
+      userData.picture
+    ], callback);
+  },
+
+  // Update Google ID for existing user
+  updateGoogleId: (userID, googleId, callback) => {
+    const query = `
+      UPDATE fashion.Admin_Users 
+      SET googleId = ? 
+      WHERE userID = ?
+    `;
+    pool.query(query, [googleId, userID], callback);
   }
 };
 
