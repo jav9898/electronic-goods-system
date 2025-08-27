@@ -1,28 +1,25 @@
+// server/src/app.js
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
 
-// Middleware
-app.use(cors({
-  origin: 'http://localhost:3000'
-}));
+// CORS (allow local dev)
+app.use(
+  cors({
+    origin: true, // reflect origin
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
-// Basic route
-app.get('/', (req, res) => {
-  res.json({ 
-    message: 'Electronic Goods System API',
-    status: 'Server running successfully'
-  });
+app.get('/health', (_req, res) => {
+  res.json({ ok: true, service: 'Electronic Goods API' });
 });
 
-// TODO: Routes will be added here as features are developed
-// app.use('/api', itemRoutes);
-
 const mainRoutes = require('./routes/mainRoutes');
-app.use("/api", mainRoutes); 
-//app.use("/", mainRoutes);
+app.use('/api', mainRoutes);
 
 module.exports = app;
