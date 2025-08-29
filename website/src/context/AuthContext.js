@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password, googleData = null) => {
     try {
-      const endpoint = googleData ? 'http://localhost:5000/user/google-auth' : 'http://localhost:5000/user/login';
+      const endpoint = googleData ? 'http://localhost:5001/user/google-auth' : 'http://localhost:5001/user/login';
       const body = googleData ? googleData : { email, password };
 
       const response = await fetch(endpoint, {
@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      const response = await fetch('http://localhost:5000/user/register', {
+      const response = await fetch('http://localhost:5001/user/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
