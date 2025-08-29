@@ -11,7 +11,7 @@ Full-stack inventory management system for electronic goods.
 
 1. Install dependencies: `npm run install-all`
 2. Start development: `npm run dev`
-3. Backend: http://localhost:5000
+3. Backend: http://localhost:5001
 4. Frontend: http://localhost:3000
 
 ## Development Workflow

@@ -128,7 +128,7 @@ EOF
 cat > server/index.js << 'EOF'
 const app = require('./src/app');
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
@@ -340,7 +340,7 @@ Full-stack inventory management system for electronic goods.
 
 1. Install dependencies: `npm run install-all`
 2. Start development: `npm run dev`
-3. Backend: http://localhost:5000
+3. Backend: http://localhost:5001
 4. Frontend: http://localhost:3000
 
 ## Development Workflow
@@ -368,7 +368,7 @@ npm run install-all
 
 # Test that everything works
 npm run dev
-# Should start both server (port 5000) and client (port 3000)
+# Should start both server (port 5001) and client (port 3000)
 # Stop with Ctrl+C
 
 # Add all files
@@ -706,7 +706,7 @@ const AddItem = () => {
     setMessage('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/items', {
+      const response = await fetch('http://localhost:5001/api/items', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -849,7 +849,7 @@ const UpdateItem = () => {
 
   const fetchItems = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/items');
+      const response = await fetch('http://localhost:5001/api/items');
       const result = await response.json();
       if (result.success) {
         setItems(result.data);
@@ -873,7 +873,7 @@ const UpdateItem = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/items/${itemId}`);
+      const response = await fetch(`http://localhost:5001/api/items/${itemId}`);
       const result = await response.json();
       if (result.success) {
         setItem({
@@ -908,7 +908,7 @@ const UpdateItem = () => {
     setMessage('');
 
     try {
-      const response = await fetch(`http://localhost:5000/api/items/${selectedItemId}`, {
+      const response = await fetch(`http://localhost:5001/api/items/${selectedItemId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -1097,7 +1097,7 @@ npm run dev
 # 1. Go to http://localhost:3000
 # 2. Try adding a new item
 # 3. Try updating an existing item
-# 4. Verify API works: http://localhost:5000/api/items
+# 4. Verify API works: http://localhost:5001/api/items
 ```
 
 ### Step 12: Commit Your Feature
